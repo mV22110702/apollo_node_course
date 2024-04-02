@@ -26,8 +26,12 @@
     "@apollo/server": "^4.10.2",
     "@graphql-tools/mock": "^9.0.2",
     "@graphql-tools/schema": "^10.0.3",
+    "@graphql-tools/utils": "^10.1.2",
     "graphql": "^16.8.1",
+    "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
-    "prettier": "^3.2.5"
+    "graphql-ws": "^5.16.0",
+    "prettier": "^3.2.5",
+    "ws": "^8.16.0"
   }
 }

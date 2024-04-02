@@ -3,7 +3,24 @@ import gql from 'graphql-tag'
 export const typeDefs = gql`
     # Schema definitions go here
 
-    type Module {
+    scalar Date
+
+    directive @upper on FIELD_DEFINITION
+
+    enum AllowedColor {
+        RED
+        GREEN
+        BLUE
+    }
+
+    interface Entity {
+        id: ID!
+        title: String! @upper
+    }
+
+    union SearchResult = Track | Module
+
+    type Module implements Entity {
         id: ID!
         "The Module's title"
         title: String!
@@ -12,9 +29,10 @@ export const typeDefs = gql`
     }
 
     "A track is a group of Modules that teaches about a specific topic"
-    type Track {
+    type Track implements Entity {
         id: ID!
-        title: String!
+        createdAt: Date
+        title: String! @upper
         author: Author!
         thumbnail: String
         length: Int
@@ -31,8 +49,19 @@ export const typeDefs = gql`
     }
 
     type Query {
+        getEntity(createdAt: Date): [Entity!]!
+        "Get track or module by ID"
+        search: [SearchResult!]!
         "Get tracks array for homepage grid"
         tracksForHome: [Track!]!
         track(id: ID!): Track
+    }
+
+    type Mutation {
+        incrementTrackViews(trackId: ID!): Track!
+    }
+
+    type Subscription {
+        numberOfViews(trackId: ID!): Int!
     }
 `
